@@ -19,7 +19,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
       {/* image */}
       <div className="relative aspect-square rounded-xl overflow-hidden">
         <Image
-          src={listing.imageSrc || ""}
+          src={listing.image || ""}
           alt={listing.title}
           fill
           className="object-cover transition group-hover:scale-105"

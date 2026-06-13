@@ -5,8 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { LuSearch, LuMenu } from "react-icons/lu";
 import { useState, useRef, useEffect } from "react";
+import { useAuthModal } from "@/store/useAuthModalStore";
 
 export default function Navbar() {
+  const { openRegister, openLogin } = useAuthModal();
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -90,7 +92,10 @@ export default function Navbar() {
                   Help Center
                 </li>
                 <div className="border-t my-1 border-gray-300" />
-                <li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
+                <li
+                  onClick={() => openRegister()}
+                  className="px-4 py-3 hover:bg-gray-100 cursor-pointer"
+                >
                   Sign up
                 </li>
                 <li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">

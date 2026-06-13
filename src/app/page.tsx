@@ -7,14 +7,14 @@ export default function Home() {
       id: 1,
       title: "test",
       location: "Vancouver, Canada",
-      imageSrc: "/images/image1.jpeg",
+      image: "/images/image1.jpeg",
       price: 140,
     },
     {
       id: 2,
       title: "test2",
       location: "Burnaby, Canada",
-      imageSrc: "/images/image2.jpeg",
+      image: "/images/image2.jpeg",
       price: 150,
     },
   ];
