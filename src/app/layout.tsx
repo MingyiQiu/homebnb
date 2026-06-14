@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Navbar from "../components/navbar/Navbar";
+// import Navbar from "@/components/navbar/Navbar";
 import RegisterModal from "@/modals/RegisterModal";
 
 const poppins = Poppins({
@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <Navbar />
+        {/* <Navbar /> */}
         {children}
         <RegisterModal />
       </body>
