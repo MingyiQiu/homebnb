@@ -98,7 +98,10 @@ export default function Navbar() {
                 >
                   Sign up
                 </li>
-                <li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
+                <li
+                  onClick={() => openLogin()}
+                  className="px-4 py-3 hover:bg-gray-100 cursor-pointer"
+                >
                   Sign in
                 </li>
               </ul>
