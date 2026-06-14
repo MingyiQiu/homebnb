@@ -5,7 +5,7 @@ interface Listing {
   id: number;
   title: string;
   location: string;
-  imageSrc: string;
+  image: string;
   price: number;
 }
 

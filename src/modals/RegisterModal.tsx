@@ -3,6 +3,8 @@
 import { useAuthModal } from "@/store/useAuthModalStore";
 import Modal from "./Modal";
 import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
+import { FcGoogle } from "react-icons/fc";
 
 export default function RegisterModal() {
   const { isRegisterOpen, closeRegister, openLogin } = useAuthModal();
@@ -38,6 +40,32 @@ export default function RegisterModal() {
           value={""}
           onChange={() => {}}
         />
+        <Button type="submit">Continue</Button>
+
+        {/* divider */}
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-300" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-white px-4  text-gray-500">Or</span>
+          </div>
+        </div>
+
+        <Button type="button" variant="outline" icon={<FcGoogle size={22} />}>
+          Continue with Google
+        </Button>
+
+        {/* footer */}
+        <p className="text-gray-500 text-center text-sm mt-6">
+          Already have an account?{" "}
+          <span
+            onClick={openLogin}
+            className="text-primary cursor-pointer font-semibold hover:underline"
+          >
+            Login
+          </span>
+        </p>
       </form>
     </Modal>
   );

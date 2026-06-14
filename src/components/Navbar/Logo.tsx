@@ -9,6 +9,10 @@ export default function Logo() {
         alt="logo"
         height={100}
         width={100}
+        style={{
+          width: "auto",
+          height: "auto",
+        }}
         priority
       />
     </Link>
