@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { LuSearch, LuMenu } from "react-icons/lu";
 import { useState, useRef, useEffect } from "react";
-import { useAuthModal } from "@/store/useAuthModalStore";
+import { useAuthModal } from "../../store/useAuthModalStore";
 
 export default function Navbar() {
   const { openRegister, openLogin } = useAuthModal();

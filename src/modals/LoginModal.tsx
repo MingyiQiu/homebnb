@@ -1,10 +1,10 @@
 "use client";
 
-import { useAuthModal } from "@/store/useAuthModalStore";
+import { useAuthModal } from "../store/useAuthModalStore";
 import Modal from "./Modal";
-import Button from "@/components/ui/Button";
+import Button from "../components/ui/Button";
 import { FcGoogle } from "react-icons/fc";
-import Input from "@/components/ui/Input";
+import Input from "../components/ui/Input";
 
 export default function LoginModal() {
   const { isLoginOpen, closeLogin, openRegister } = useAuthModal();

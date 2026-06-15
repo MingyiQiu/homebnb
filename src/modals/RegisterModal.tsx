@@ -1,13 +1,77 @@
 "use client";
 
-import { useAuthModal } from "@/store/useAuthModalStore";
+import { useAuthModal } from "../store/useAuthModalStore";
 import Modal from "./Modal";
-import Input from "@/components/ui/Input";
-import Button from "@/components/ui/Button";
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
 import { FcGoogle } from "react-icons/fc";
+import { useState } from "react";
+
+interface RegisterValues {
+  name: string;
+  email: string;
+  password: string;
+}
+
+type RegisterErrors = Partial<Record<keyof RegisterValues, string>>;
 
 export default function RegisterModal() {
   const { isRegisterOpen, closeRegister, openLogin } = useAuthModal();
+  const [values, setValues] = useState<RegisterValues>({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState<RegisterErrors>({});
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: undefined,
+    }));
+  };
+
+  const validate = () => {
+    const newErrors: RegisterErrors = {};
+
+    if (!values.name.trim()) {
+      newErrors.name = "Name is required.";
+    } else if (values.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters.";
+    }
+
+    if (!values.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!/^\S+@\S+\.\S+$/.test(values.email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+
+    if (!values.password.trim()) {
+      newErrors.password = "Password is required.";
+    } else if (values.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validate()) return;
+    console.log(values);
+  };
+
   return (
     <Modal title="Register" isOpen={isRegisterOpen} onClose={closeRegister}>
       {/* header */}
@@ -18,27 +82,30 @@ export default function RegisterModal() {
         <p className="text-sm text-gray-500">Create an account</p>
       </div>
 
-      <form className="space-y-8">
+      <form onSubmit={onSubmit} className="space-y-8">
         <Input
           name="name"
           label="Name"
           type="text"
-          value={""}
-          onChange={() => {}}
+          value={values.name}
+          onChange={handleChange}
+          error={errors.name}
         />
         <Input
           name="email"
           label="Email"
           type="text"
-          value={""}
-          onChange={() => {}}
+          value={values.email}
+          onChange={handleChange}
+          error={errors.email}
         />
         <Input
           name="password"
           label="Password"
           type="text"
-          value={""}
-          onChange={() => {}}
+          value={values.password}
+          onChange={handleChange}
+          error={errors.password}
         />
         <Button type="submit">Continue</Button>
 
