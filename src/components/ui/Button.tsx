@@ -43,7 +43,7 @@ export default function Button({
         `,
         rounded ? "rounded-full" : "rounded-lg",
         variant === "primary" &&
-          "bg-linear-to-r from-[#e89d31] to-[#d8891f] text-white hover:from-[#d8891f] hover:to-[#c77717] active:scale-[0.98]",
+          "bg-linear-to-r from-primary to-[#d8891f] text-white hover:from-[#d8891f] hover:to-[#c77717] active:scale-[0.98]",
         variant === "outline" &&
           "border border-gray-300 text-gray-800 bg-white hover:bg-gray-100",
 
