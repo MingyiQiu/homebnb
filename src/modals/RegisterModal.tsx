@@ -6,6 +6,9 @@ import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
+import { authClient } from "../lib/auth-client";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface RegisterValues {
   name: string;
@@ -25,6 +28,7 @@ export default function RegisterModal() {
 
   const [errors, setErrors] = useState<RegisterErrors>({});
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -69,7 +73,49 @@ export default function RegisterModal() {
     e.preventDefault();
 
     if (!validate()) return;
-    console.log(values);
+
+    setLoading(true);
+    try {
+      const { error } = await authClient.signUp.email({
+        email: values.email,
+        name: values.name,
+        password: values.password,
+      });
+
+      if (error) {
+        toast(error.message as string, {
+          style: {
+            background: "#FF5A5F",
+            color: "white",
+          },
+        });
+        return;
+      }
+
+      toast("Registration successful", {
+        style: {
+          background: "#FF5A5F",
+          color: "white",
+        },
+      });
+      setValues({ name: "", email: "", password: "" });
+      closeRegister();
+      router.refresh();
+    } catch (error) {
+      toast(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+        {
+          style: {
+            background: "#FF5A5F",
+            color: "white",
+          },
+        },
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -107,7 +153,9 @@ export default function RegisterModal() {
           onChange={handleChange}
           error={errors.password}
         />
-        <Button type="submit">Continue</Button>
+        <Button disabled={loading} loading={loading} type="submit">
+          Continue
+        </Button>
 
         {/* divider */}
         <div className="relative my-6">

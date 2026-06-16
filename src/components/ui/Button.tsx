@@ -23,7 +23,7 @@ export default function Button({
   const isDisabled = disabled || loading;
   return (
     <button
-      disabled={disabled}
+      disabled={isDisabled}
       {...props}
       className={clsx(
         `
