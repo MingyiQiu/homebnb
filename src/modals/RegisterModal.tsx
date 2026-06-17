@@ -118,6 +118,21 @@ export default function RegisterModal() {
     }
   };
 
+  const signInWithGoogle = async () => {
+    try {
+      await authClient.signIn.social({
+        provider: "google",
+      });
+    } catch {
+      toast("Google signin failed", {
+        style: {
+          background: "#e89d31",
+          color: "white",
+        },
+      });
+    }
+  };
+
   return (
     <Modal title="Register" isOpen={isRegisterOpen} onClose={closeRegister}>
       {/* header */}
@@ -167,7 +182,12 @@ export default function RegisterModal() {
           </div>
         </div>
 
-        <Button type="button" variant="outline" icon={<FcGoogle size={22} />}>
+        <Button
+          onClick={signInWithGoogle}
+          type="button"
+          variant="outline"
+          icon={<FcGoogle size={22} />}
+        >
           Continue with Google
         </Button>
 

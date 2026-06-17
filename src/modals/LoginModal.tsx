@@ -112,6 +112,21 @@ export default function LoginModal() {
     }
   };
 
+  const signInWithGoogle = async () => {
+    try {
+      await authClient.signIn.social({
+        provider: "google",
+      });
+    } catch {
+      toast("Google signin failed", {
+        style: {
+          background: "#e89d31",
+          color: "white",
+        },
+      });
+    }
+  };
+
   return (
     <Modal onClose={closeLogin} isOpen={isLoginOpen} title="Login">
       <div className="mb-6 space-y-1">
@@ -138,7 +153,9 @@ export default function LoginModal() {
           error={errors.password}
           onChange={handleChange}
         />
-        <Button type="submit">Continue</Button>
+        <Button disabled={loading} loading={loading} type="submit">
+          Continue
+        </Button>
 
         {/* divider */}
         <div className="relative my-6">
@@ -150,7 +167,12 @@ export default function LoginModal() {
           </div>
         </div>
 
-        <Button type="button" variant="outline" icon={<FcGoogle size={22} />}>
+        <Button
+          onClick={signInWithGoogle}
+          type="button"
+          variant="outline"
+          icon={<FcGoogle size={22} />}
+        >
           Continue with Google
         </Button>
 
