@@ -5,9 +5,113 @@ import Modal from "./Modal";
 import Button from "../components/ui/Button";
 import { FcGoogle } from "react-icons/fc";
 import Input from "../components/ui/Input";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { authClient } from "../lib/auth-client";
+import toast from "react-hot-toast";
+
+interface LoginValues {
+  email: string;
+  password: string;
+}
+
+type LoginErrors = Partial<Record<keyof LoginValues, string>>;
 
 export default function LoginModal() {
   const { isLoginOpen, closeLogin, openRegister } = useAuthModal();
+
+  const [values, setValues] = useState<LoginValues>({
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState<LoginErrors>({});
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: undefined,
+    }));
+  };
+
+  const validate = () => {
+    const newErrors: LoginErrors = {};
+
+    if (!values.email.trim()) {
+      newErrors.email = "Email field is required!";
+    } else if (!/^\S+@\S+\.\S+$/.test(values.email)) {
+      newErrors.email = "Enter a valid email!";
+    }
+
+    if (!values.password.trim()) {
+      newErrors.password = "Password field is required!";
+    } else if (values.password.length < 6) {
+      newErrors.password = "Password must be  atleast 6 characters!";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validate()) return;
+
+    setLoading(true);
+
+    try {
+      const { error } = await authClient.signIn.email({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (error) {
+        toast(error.message as string, {
+          style: {
+            background: "#e89d31",
+            color: "white",
+          },
+        });
+        return;
+      }
+
+      toast("Logged in successfully", {
+        style: {
+          background: "#e89d31",
+          color: "white",
+        },
+      });
+      setValues({ email: "", password: "" });
+      closeLogin();
+      router.refresh();
+    } catch (error) {
+      toast(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+        {
+          style: {
+            background: "#e89d31F",
+            color: "white",
+          },
+        },
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Modal onClose={closeLogin} isOpen={isLoginOpen} title="Login">
       <div className="mb-6 space-y-1">
@@ -17,20 +121,22 @@ export default function LoginModal() {
         <p className="text-sm text-gray-500">Log in to your account</p>
       </div>
 
-      <form className="space-y-8">
+      <form onSubmit={onSubmit} className="space-y-8">
         <Input
           name="email"
           label="Email"
           type="text"
-          value={""}
-          onChange={() => {}}
+          value={values.email}
+          error={errors.email}
+          onChange={handleChange}
         />
         <Input
           name="password"
           label="Password"
           type="text"
-          value={""}
-          onChange={() => {}}
+          value={values.password}
+          error={errors.password}
+          onChange={handleChange}
         />
         <Button type="submit">Continue</Button>
 

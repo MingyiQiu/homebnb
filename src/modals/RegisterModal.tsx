@@ -85,7 +85,7 @@ export default function RegisterModal() {
       if (error) {
         toast(error.message as string, {
           style: {
-            background: "#FF5A5F",
+            background: "#e89d31",
             color: "white",
           },
         });
@@ -94,7 +94,7 @@ export default function RegisterModal() {
 
       toast("Registration successful", {
         style: {
-          background: "#FF5A5F",
+          background: "#e89d31",
           color: "white",
         },
       });
@@ -108,7 +108,7 @@ export default function RegisterModal() {
           : "Something went wrong. Please try again.",
         {
           style: {
-            background: "#FF5A5F",
+            background: "#e89d31",
             color: "white",
           },
         },
