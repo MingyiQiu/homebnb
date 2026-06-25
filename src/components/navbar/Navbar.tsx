@@ -8,10 +8,12 @@ import { useState, useRef, useEffect } from "react";
 import { useAuthModal } from "../../store/useAuthModalStore";
 import { authClient } from "../../lib/auth-client";
 import { useRouter } from "next/navigation";
+import { useCreateListingModal } from "../../store/useCreateListingModal";
 
 export default function Navbar() {
   const { data: session, isPending } = authClient.useSession();
   const { openRegister, openLogin } = useAuthModal();
+  const { open: openCreateListing } = useCreateListingModal();
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
@@ -73,7 +75,10 @@ export default function Navbar() {
         {/* right navbar */}
         <div className="flex items-center gap-4 relative" ref={menuRef}>
           {session && !isPending && (
-            <button className="hidden md:block text-sm font-medium px-4 py-2 rounded-full bg-gray-50 cursor-pointer hover:bg-gray-100">
+            <button
+              onClick={openCreateListing}
+              className="hidden md:block text-sm font-medium px-4 py-2 rounded-full bg-gray-50 cursor-pointer hover:bg-gray-100"
+            >
               Homebnb your home
             </button>
           )}
@@ -113,7 +118,10 @@ export default function Navbar() {
               <ul className="text-gray-800 text-sm">
                 {session && !isPending && (
                   <>
-                    <li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
+                    <li
+                      onClick={openCreateListing}
+                      className="px-4 py-3 hover:bg-gray-100 cursor-pointer"
+                    >
                       Homebnb your home
                     </li>
                     <Link href="/favorites">
