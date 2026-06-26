@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useCreateListingModal } from "../store/useCreateListingModal";
 import Modal from "./Modal";
 import Button from "../components/ui/Button";
+import { categories } from "../constants/Categories";
+import CategoryCard from "../components/listings/CategoryCard";
 
 const STEPS = {
   CATEGORY: 0,
@@ -17,6 +19,7 @@ const STEPS = {
 export default function CreateListingModal() {
   const { isOpen, close } = useCreateListingModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
+  const [category, setCategory] = useState<string | null>(null);
 
   const stepTitle = () => {
     switch (step) {
@@ -47,6 +50,24 @@ export default function CreateListingModal() {
       <div className="mb-7 flex items-center justify-between text-sm text-gray-500">
         <span>Step {step + 1} of 6</span>
         <span className="font-medium text-gray-700">{stepTitle()}</span>
+      </div>
+
+      <div className="min-h-55 flex items-center justify-center rounded-xl text-gray-400 px-6">
+        {step === STEPS.CATEGORY && (
+          <div className="grid grid-cols-2 gap-4 w-full">
+            {categories.map((item) => {
+              return (
+                <CategoryCard
+                  label={item.label}
+                  icon={item.icon}
+                  key={item.slug}
+                  onClick={() => setCategory(item.slug)}
+                  selected={category === item.slug}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* footer */}
