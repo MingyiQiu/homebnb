@@ -6,6 +6,9 @@ import Modal from "./Modal";
 import Button from "../components/ui/Button";
 import { categories } from "../constants/Categories";
 import CategoryCard from "../components/listings/CategoryCard";
+import CountrySelect from "../components/listings/CountrySelect";
+import { Country } from "../custom-hooks/useCountries";
+import dynamic from "next/dynamic";
 
 const STEPS = {
   CATEGORY: 0,
@@ -20,6 +23,15 @@ export default function CreateListingModal() {
   const { isOpen, close } = useCreateListingModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [category, setCategory] = useState<string | null>(null);
+  const [location, setLocation] = useState<Country | null>(null);
+
+  const MapComponent = dynamic(
+    () => import("../components/general/map/MapComponent"),
+    {
+      ssr: false,
+      loading: () => <p>Loading map...</p>,
+    },
+  );
 
   const stepTitle = () => {
     switch (step) {
@@ -66,6 +78,19 @@ export default function CreateListingModal() {
                 />
               );
             })}
+          </div>
+        )}
+
+        {step === STEPS.LOCATION && (
+          <div className="w-full space-y-2 py-6">
+            <CountrySelect
+              value={location}
+              onChange={(value) => setLocation(value)}
+            />
+
+            <div className="h-80 overflow-hidden border">
+              <MapComponent center={location?.latlng || [49.282, -123.118]} />
+            </div>
           </div>
         )}
       </div>
