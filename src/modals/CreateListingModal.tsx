@@ -9,6 +9,7 @@ import CategoryCard from "../components/listings/CategoryCard";
 import CountrySelect from "../components/listings/CountrySelect";
 import { Country } from "../custom-hooks/useCountries";
 import dynamic from "next/dynamic";
+import Counter from "../components/listings/Counter";
 
 const STEPS = {
   CATEGORY: 0,
@@ -24,6 +25,9 @@ export default function CreateListingModal() {
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [category, setCategory] = useState<string | null>(null);
   const [location, setLocation] = useState<Country | null>(null);
+  const [guestCount, setGuestCount] = useState(1);
+  const [bathroomCount, setBathroomCount] = useState(1);
+  const [roomCount, setRoomCount] = useState(1);
 
   const MapComponent = dynamic(
     () => import("../components/general/map/MapComponent"),
@@ -91,6 +95,29 @@ export default function CreateListingModal() {
             <div className="h-80 overflow-hidden border">
               <MapComponent center={location?.latlng || [49.282, -123.118]} />
             </div>
+          </div>
+        )}
+
+        {step === STEPS.COUNTERS && (
+          <div className="space-y-2">
+            <Counter
+              title="Guests"
+              subtitle="Maximum number of guests"
+              value={guestCount}
+              onChange={setGuestCount}
+            />
+            <Counter
+              title="Rooms"
+              subtitle="Number of rooms"
+              value={roomCount}
+              onChange={setRoomCount}
+            />
+            <Counter
+              title="Bathrooms"
+              subtitle="Number of bathrooms"
+              value={bathroomCount}
+              onChange={setBathroomCount}
+            />
           </div>
         )}
       </div>
