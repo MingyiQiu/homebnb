@@ -10,6 +10,7 @@ import CountrySelect from "../components/listings/CountrySelect";
 import { Country } from "../custom-hooks/useCountries";
 import dynamic from "next/dynamic";
 import Counter from "../components/listings/Counter";
+import Input from "../components/ui/Input";
 
 const STEPS = {
   CATEGORY: 0,
@@ -28,6 +29,8 @@ export default function CreateListingModal() {
   const [guestCount, setGuestCount] = useState(1);
   const [bathroomCount, setBathroomCount] = useState(1);
   const [roomCount, setRoomCount] = useState(1);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const MapComponent = dynamic(
     () => import("../components/general/map/MapComponent"),
@@ -118,6 +121,29 @@ export default function CreateListingModal() {
               value={bathroomCount}
               onChange={setBathroomCount}
             />
+          </div>
+        )}
+
+        {step === STEPS.DETAILS && (
+          <div className="space-y-10 w-full text-gray">
+            <Input
+              name="title"
+              label="Title"
+              value={title}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setTitle(e.target.value);
+              }}
+            />
+            <Input
+              as="textarea"
+              name="description"
+              label="Description"
+              value={description}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                setDescription(e.target.value);
+              }}
+            />
+            <p className="text-xs text-gray-400">Short titles work best</p>
           </div>
         )}
       </div>
