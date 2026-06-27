@@ -12,6 +12,7 @@ import dynamic from "next/dynamic";
 import Counter from "../components/listings/Counter";
 import Input from "../components/ui/Input";
 import ImageUpload from "../components/listings/ImageUpload";
+import toast from "react-hot-toast";
 
 const STEPS = {
   CATEGORY: 0,
@@ -34,6 +35,7 @@ export default function CreateListingModal() {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<null | File>(null);
   const [preview, setPreview] = useState<null | string>(null);
+  const [price, setPrice] = useState("");
 
   const MapComponent = dynamic(
     () => import("../components/general/map/MapComponent"),
@@ -76,6 +78,23 @@ export default function CreateListingModal() {
   }, [preview]);
 
   const createListing = async () => {
+    if (
+      !title ||
+      !description ||
+      !price ||
+      !location?.value ||
+      !category ||
+      !image
+    ) {
+      toast("All fields are required!", {
+        style: {
+          background: "#e89d31",
+          color: "white",
+        },
+      });
+      return;
+    }
+
     alert("form submitted!");
   };
 
@@ -165,6 +184,19 @@ export default function CreateListingModal() {
 
         {step === STEPS.IMAGES && (
           <ImageUpload onChange={handleImageChange} preview={preview} />
+        )}
+
+        {step === STEPS.PRICE && (
+          <Input
+            min={10}
+            type="number"
+            name="price"
+            label="Price($)"
+            value={price}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setPrice(e.target.value);
+            }}
+          />
         )}
       </div>
 
