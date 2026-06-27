@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCreateListingModal } from "../store/useCreateListingModal";
 import Modal from "./Modal";
 import Button from "../components/ui/Button";
@@ -11,6 +11,7 @@ import { Country } from "../custom-hooks/useCountries";
 import dynamic from "next/dynamic";
 import Counter from "../components/listings/Counter";
 import Input from "../components/ui/Input";
+import ImageUpload from "../components/listings/ImageUpload";
 
 const STEPS = {
   CATEGORY: 0,
@@ -31,6 +32,8 @@ export default function CreateListingModal() {
   const [roomCount, setRoomCount] = useState(1);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [image, setImage] = useState<null | File>(null);
+  const [preview, setPreview] = useState<null | string>(null);
 
   const MapComponent = dynamic(
     () => import("../components/general/map/MapComponent"),
@@ -58,6 +61,19 @@ export default function CreateListingModal() {
         return "";
     }
   };
+
+  const handleImageChange = (file: File) => {
+    setImage(file);
+    setPreview(URL.createObjectURL(file));
+  };
+
+  useEffect(() => {
+    return () => {
+      if (preview) {
+        URL.revokeObjectURL(preview);
+      }
+    };
+  }, [preview]);
 
   const createListing = async () => {
     alert("form submitted!");
@@ -145,6 +161,10 @@ export default function CreateListingModal() {
             />
             <p className="text-xs text-gray-400">Short titles work best</p>
           </div>
+        )}
+
+        {step === STEPS.IMAGES && (
+          <ImageUpload onChange={handleImageChange} preview={preview} />
         )}
       </div>
 
