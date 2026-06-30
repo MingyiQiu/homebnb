@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCreateListingModal } from "../store/useCreateListingModal";
 import Modal from "./Modal";
@@ -36,6 +37,7 @@ export default function CreateListingModal() {
   const [image, setImage] = useState<null | File>(null);
   const [preview, setPreview] = useState<null | string>(null);
   const [price, setPrice] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const MapComponent = dynamic(
     () => import("../components/general/map/MapComponent"),
@@ -95,9 +97,62 @@ export default function CreateListingModal() {
       return;
     }
 
-    alert("form submitted!");
+    try {
+      setLoading(true);
+
+      const formData = new FormData();
+
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("price", price);
+      formData.append("locationValue", location.value);
+      formData.append("category", category);
+      formData.append("roomCount", roomCount.toString());
+      formData.append("bathroomCount", bathroomCount.toString());
+      formData.append("guestCount", guestCount.toString());
+      formData.append("image", image);
+
+      await axios.post("/api/listings", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast("Listing created successfully", {
+        style: {
+          background: "#e89d31",
+          color: "white",
+        },
+      });
+      handleClose();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast(error.response?.data.error || "Something went wrong", {
+          style: {
+            background: "#e89d31",
+            color: "white",
+          },
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const handleClose = () => {
+    setCategory("");
+    setPrice("");
+    setRoomCount(1);
+    setBathroomCount(1);
+    setGuestCount(1);
+    setLocation(null);
+    setTitle("");
+    setDescription("");
+    setImage(null);
+    setPreview(null);
+    setStep(STEPS.CATEGORY);
+    close();
+  };
   return (
     <Modal isOpen={isOpen} onClose={close} title="Create a new listing">
       {/* step indicator */}
@@ -209,6 +264,8 @@ export default function CreateListingModal() {
         )}
 
         <Button
+          loading={loading}
+          disabled={loading}
           onClick={() =>
             step < STEPS.PRICE ? setStep((prev) => prev + 1) : createListing()
           }
