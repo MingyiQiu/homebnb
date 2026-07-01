@@ -1,4 +1,4 @@
-import { Listing } from "../../generated/prisma/client";
+import { Listing } from "@prisma/client";
 import { getCurrentUser } from "../../server-actions/getCurrentUser";
 import { getListings } from "../../services/listing";
 import ListingCard from "./ListingCard";

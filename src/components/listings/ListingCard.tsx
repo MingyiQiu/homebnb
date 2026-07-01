@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { LuHeart } from "react-icons/lu";
-import { Listing } from "../../generated/prisma/client";
+import { Listing } from "@prisma/client";
 import useCountries from "../../custom-hooks/useCountries";
 
 interface ListingCardProps {
