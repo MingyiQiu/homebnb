@@ -1,27 +1,14 @@
-import ListingCard from "../components/listings/ListingCard";
+import Listings from "../components/listings/Listings";
 
-export default function Home() {
-  const listings = [
-    {
-      id: 1,
-      title: "test",
-      location: "Vancouver, Canada",
-      image: "/images/image1.jpeg",
-      price: 140,
-    },
-    {
-      id: 2,
-      title: "test2",
-      location: "Burnaby, Canada",
-      image: "/images/image2.jpeg",
-      price: 150,
-    },
-  ];
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-      {listings.map((listing) => {
-        return <ListingCard key={listing.id} listing={listing} />;
-      })}
-    </div>
-  );
+export interface HomeProps {
+  searchParams: {
+    category?: string;
+    locationValue?: string;
+    minPrice?: number;
+    maxPrice?: number;
+  };
+}
+
+export default function Home({ searchParams }: HomeProps) {
+  return <Listings searchParams={searchParams} />;
 }
