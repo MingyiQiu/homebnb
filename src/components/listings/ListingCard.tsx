@@ -1,13 +1,20 @@
 import Image from "next/image";
-import { LuHeart } from "react-icons/lu";
 import { Listing } from "@prisma/client";
 import useCountries from "../../custom-hooks/useCountries";
+import HeartButton from "../favorites/HeartButton";
 
 interface ListingCardProps {
   listing: Listing;
+  currentUser?: {
+    id: string;
+    favoriteIds: string[];
+  } | null;
 }
 
-export default function ListingCard({ listing }: ListingCardProps) {
+export default function ListingCard({
+  listing,
+  currentUser,
+}: ListingCardProps) {
   const { getByValue } = useCountries();
   const location = getByValue(listing.locationValue);
 
@@ -21,9 +28,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
           fill
           className="object-cover transition group-hover:scale-105"
         />
-        <button className="absolute top-3 right-3 p-2 rounded-full bg-white/90 hover:bg-white shadow cursor-pointer">
-          <LuHeart size={18} className="text-gray-700" />
-        </button>
+        <HeartButton listingId={listing.id} currentUser={currentUser} />
       </div>
       <div className="space-y-1 mt-3 text-sm">
         <p className="text-gray-500">
