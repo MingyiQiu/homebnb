@@ -9,11 +9,14 @@ interface ListingCardProps {
     id: string;
     favoriteIds: string[];
   } | null;
+
+  hideFavoriteButton?: boolean;
 }
 
 export default function ListingCard({
   listing,
   currentUser,
+  hideFavoriteButton,
 }: ListingCardProps) {
   const { getByValue } = useCountries();
   const location = getByValue(listing.locationValue);
@@ -28,7 +31,9 @@ export default function ListingCard({
           fill
           className="object-cover transition group-hover:scale-105"
         />
-        <HeartButton listingId={listing.id} currentUser={currentUser} />
+        {!hideFavoriteButton && (
+          <HeartButton listingId={listing.id} currentUser={currentUser} />
+        )}
       </div>
       <div className="space-y-1 mt-3 text-sm">
         <p className="text-gray-500">

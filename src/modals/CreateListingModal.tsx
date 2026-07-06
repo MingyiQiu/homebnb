@@ -14,6 +14,7 @@ import Counter from "../components/listings/Counter";
 import Input from "../components/ui/Input";
 import ImageUpload from "../components/listings/ImageUpload";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const STEPS = {
   CATEGORY: 0,
@@ -38,6 +39,8 @@ export default function CreateListingModal() {
   const [preview, setPreview] = useState<null | string>(null);
   const [price, setPrice] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const MapComponent = dynamic(
     () => import("../components/general/map/MapComponent"),
@@ -125,6 +128,7 @@ export default function CreateListingModal() {
         },
       });
       handleClose();
+      router.replace("/properties");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast(error.response?.data.error || "Something went wrong", {
