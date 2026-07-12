@@ -24,6 +24,7 @@ export default async function PropertiesPage() {
               listing={listing}
               key={listing.id}
               hideFavoriteButton
+              property
             />
           );
         })}
