@@ -2,18 +2,42 @@
 
 import { DateRange, type Range } from "react-date-range";
 import { useState } from "react";
-import { addDays, differenceInCalendarDays, format } from "date-fns";
+import {
+  addDays,
+  differenceInCalendarDays,
+  eachDayOfInterval,
+  format,
+} from "date-fns";
 
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import Button from "../ui/Button";
 import { LuCheck } from "react-icons/lu";
+import { authClient } from "../../lib/auth-client";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface BookingCardProps {
   pricePerNight: number;
+  listingId: string;
+  hostId: string;
+  reservations: {
+    startDate: string;
+    endDate: string;
+  }[];
 }
 
-export default function BookingCard({ pricePerNight }: BookingCardProps) {
+export default function BookingCard({
+  pricePerNight,
+  listingId,
+  hostId,
+  reservations,
+}: BookingCardProps) {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
+  const isDisabledForHost = session?.user.id === hostId;
   const [range, setRange] = useState<Range[]>([
     {
       startDate: new Date(),
@@ -31,6 +55,58 @@ export default function BookingCard({ pricePerNight }: BookingCardProps) {
       : 0;
 
   const total = nights * pricePerNight;
+
+  const disabledDates = reservations.flatMap((reservation) =>
+    eachDayOfInterval({
+      start: new Date(reservation.startDate),
+      end: new Date(reservation.endDate),
+    }),
+  );
+
+  const onReserve = async () => {
+    if (!startDate || !endDate) return;
+    if (!session) {
+      toast("Sign in to make a reservation.", {
+        style: {
+          background: "#e89d31",
+          color: "white",
+        },
+      });
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await axios.post("/api/reservations", {
+        startDate,
+        endDate,
+        listingId,
+        hostId,
+        totalPrice: total,
+      });
+
+      toast("Listing reserved", {
+        style: {
+          background: "#e89d31",
+          color: "white",
+        },
+      });
+
+      router.refresh();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast(error.response?.data.error, {
+          style: {
+            background: "#e89d31",
+            color: "white",
+          },
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="lg:sticky lg:top-8">
       <div className="border border-gray-200 rounded-2xl p-2 sm:p-8 shadow-xl bg-white">
@@ -51,6 +127,7 @@ export default function BookingCard({ pricePerNight }: BookingCardProps) {
             minDate={new Date()}
             showDateDisplay={false}
             rangeColors={["#e89d31"]}
+            disabledDates={disabledDates}
           />
         </div>
 
@@ -88,7 +165,14 @@ export default function BookingCard({ pricePerNight }: BookingCardProps) {
         </div>
 
         {/* reservation button */}
-        <Button rounded>Reserve</Button>
+        <Button
+          rounded
+          onClick={onReserve}
+          loading={loading}
+          disabled={isDisabledForHost || loading}
+        >
+          Reserve
+        </Button>
 
         <p className="text-center text-sm text-gray-500 mt-4">
           <LuCheck className="inline mr-1 text-gray-500" />

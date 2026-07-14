@@ -75,7 +75,12 @@ export default async function ListingPage({ listingId }: ListingPageProps) {
         </div>
 
         {/* right content */}
-        <BookingCard pricePerNight={listing.price} />
+        <BookingCard
+          pricePerNight={listing.price}
+          listingId={listing.id}
+          hostId={listing.userId}
+          reservations={listing.reservations}
+        />
       </div>
     </div>
   );
