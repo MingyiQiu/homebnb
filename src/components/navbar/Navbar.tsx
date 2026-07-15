@@ -9,11 +9,13 @@ import { useAuthModal } from "../../store/useAuthModalStore";
 import { authClient } from "../../lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useCreateListingModal } from "../../store/useCreateListingModal";
+import { useFilterModal } from "../../store/useFilterListingModal";
 
 export default function Navbar() {
   const { data: session, isPending } = authClient.useSession();
   const { openRegister, openLogin } = useAuthModal();
   const { open: openCreateListing } = useCreateListingModal();
+  const { open: openFilterModal } = useFilterModal();
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
@@ -42,7 +44,7 @@ export default function Navbar() {
         <Logo />
 
         {/* center navbar */}
-        <div className="flex items-center gap-3">
+        <div onClick={openFilterModal} className="flex items-center gap-3">
           {/* full search bar - hidden on mobile */}
           <div className="hidden md:flex items-center gap-3 px-4 py-2 shadow-md border border-gray-200 rounded-full cursor-pointer">
             <span className="text-sm font-medium text-gray-700 hidden lg:block">

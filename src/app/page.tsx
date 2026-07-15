@@ -1,16 +1,10 @@
 import { Suspense } from "react";
 import Listings from "../components/listings/Listings";
 
-export interface HomeProps {
-  searchParams: {
-    category?: string;
-    locationValue?: string;
-    minPrice?: number;
-    maxPrice?: number;
-  };
-}
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
-export default function Home({ searchParams }: HomeProps) {
+export default async function Home(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
   return (
     <Suspense fallback={<p>Loading...</p>}>
       <Listings searchParams={searchParams} />
