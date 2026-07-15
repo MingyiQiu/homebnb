@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { Listing } from "@prisma/client";
+import { Listing } from "../../types/listing";
 import useCountries from "../../custom-hooks/useCountries";
 import HeartButton from "../favorites/HeartButton";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 
 interface ListingCardProps {
   listing: Listing;
@@ -15,6 +16,12 @@ interface ListingCardProps {
 
   hideFavoriteButton?: boolean;
   property?: boolean;
+  reservation?: {
+    id: string;
+    startDate: string;
+    endDate: string;
+    totalPrice: number;
+  };
 }
 
 export default function ListingCard({
@@ -22,6 +29,7 @@ export default function ListingCard({
   currentUser,
   hideFavoriteButton,
   property,
+  reservation,
 }: ListingCardProps) {
   const router = useRouter();
   const { getByValue } = useCountries();
@@ -51,10 +59,25 @@ export default function ListingCard({
             : listing.locationValue}
         </p>
         <p className="text-gray-900 truncate">{listing.title}</p>
-        <p className="pt-1">
-          <span className="font-semibold text-gray-900">${listing.price}</span>{" "}
-          /<span className="text-gray-500">night</span>
-        </p>
+
+        {reservation ? (
+          <>
+            <p className="text-gray-500 text-sm">
+              {format(new Date(reservation.startDate), "MMM d")} -{" "}
+              {format(new Date(reservation.endDate), "MMM d")}
+            </p>
+            <p className="pt-1 font-semibold text-gray-900">
+              ${reservation.totalPrice}
+            </p>
+          </>
+        ) : (
+          <p className="pt-1">
+            <span className="font-semibold text-gray-900">
+              ${listing.price}
+            </span>{" "}
+            /<span className="text-gray-500">night</span>
+          </p>
+        )}
 
         {property && (
           <div className="mt-3">

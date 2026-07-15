@@ -94,6 +94,7 @@ export default function BookingCard({
       });
 
       router.refresh();
+      router.push("/trips");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast(error.response?.data.error, {
@@ -158,7 +159,7 @@ export default function BookingCard({
             <span>${total}</span>
           </div>
 
-          <div className="border-t pt-4 justify-between font-bold text-lg">
+          <div className="border-t pt-4 flex justify-between font-bold text-lg">
             <span>Total</span>
             <span>${total}</span>
           </div>
