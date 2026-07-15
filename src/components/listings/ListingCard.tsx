@@ -6,6 +6,7 @@ import useCountries from "../../custom-hooks/useCountries";
 import HeartButton from "../favorites/HeartButton";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
+import CancelReservationButton from "../reservations/CancelReservationButton";
 
 interface ListingCardProps {
   listing: Listing;
@@ -22,6 +23,8 @@ interface ListingCardProps {
     endDate: string;
     totalPrice: number;
   };
+  trip?: boolean;
+  actionLabel?: string;
 }
 
 export default function ListingCard({
@@ -30,6 +33,8 @@ export default function ListingCard({
   hideFavoriteButton,
   property,
   reservation,
+  trip,
+  actionLabel,
 }: ListingCardProps) {
   const router = useRouter();
   const { getByValue } = useCountries();
@@ -85,6 +90,13 @@ export default function ListingCard({
               Listed on {new Date(listing.createdAt).toLocaleDateString()}
             </p>
           </div>
+        )}
+
+        {trip && reservation && actionLabel && (
+          <CancelReservationButton
+            reservationId={reservation.id}
+            actionLabel={actionLabel}
+          />
         )}
       </div>
     </div>

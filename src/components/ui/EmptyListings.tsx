@@ -17,7 +17,7 @@ export default function EmptyListings({
   const router = useRouter();
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center max-w-sm mx-auto">
-      <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-900">
+      <h2 className="text-2xl md:text-3xl lg:text-3xl font-semibold text-gray-900">
         {title}
       </h2>
       <p className="my-4 text-gray-600">{subtitle}</p>
