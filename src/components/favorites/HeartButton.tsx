@@ -22,6 +22,7 @@ export default function HeartButton({
   });
   return (
     <button
+      aria-label={hasFavorited ? "Remove from favorites" : "Add to favorites"}
       onClick={(e) => {
         e.stopPropagation();
         toggleFavorite();

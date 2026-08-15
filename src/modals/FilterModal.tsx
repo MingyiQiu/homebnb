@@ -108,7 +108,7 @@ function FilterModalComponent() {
             />
 
             <div className="h-80 overflow-hidden border">
-              <MapComponent center={location?.latlng || [51.505, -0.09]} />
+              <MapComponent center={location?.latlng || [49.282, -123.118]} />
             </div>
           </div>
         )}

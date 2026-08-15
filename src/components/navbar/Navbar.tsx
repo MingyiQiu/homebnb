@@ -87,6 +87,8 @@ export default function Navbar() {
 
           <div className="flex items-center gap-2 border border-gray-300 rounded-full px-2 py-1 hover:shadow-md transition cursor-pointer">
             <button
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
               onClick={() => setOpen((prev) => !prev)}
               className="h-8 w-8 grid place-items-center rounded-full hover:bg-gray-100 transition cursor-pointer"
             >
