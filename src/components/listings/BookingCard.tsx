@@ -110,7 +110,7 @@ export default function BookingCard({
   };
   return (
     <div className="lg:sticky lg:top-8">
-      <div className="border border-gray-200 rounded-2xl p-2 sm:p-8 shadow-xl bg-white">
+      <div className="border border-gray-200 rounded-2xl p-4 sm:p-6 shadow-xl bg-white">
         {/* price */}
         <div className="flex items-center gap-2 mb-6">
           <p className="text-xl font-bold">${pricePerNight}</p>
@@ -118,7 +118,7 @@ export default function BookingCard({
         </div>
 
         {/* calendar */}
-        <div className="overflow-auto bg-white no-scrollbar">
+        <div className="w-full bg-white flex justify-center">
           <DateRange
             ranges={range}
             onChange={(item) => setRange([item.selection])}
