@@ -26,20 +26,20 @@ The platform focuses on:
 - personalized favorite collections
 - host property management
 
-It provides a complete rental workflow where users can explore properties, reserve stays, manage bookings, and publish their own listings as hosts.
+It provides a complete rental workflow where guests can explore properties, reserve stays, manage bookings, and publish their own listings as hosts.
 
 # 🔍 Browsing & Search
 
 The core experience starts with property discovery through an intuitive browsing interface.
 
-Users can:
+Guests can:
 
 - browse available properties
 - view property details
 - explore images and descriptions
-- search accommodations based on user preferences
+- search accommodations based on their preferences
 
-The search system helps users quickly find suitable stays and improves the overall discovery experience.
+The search system helps guests quickly find suitable stays and improves the overall discovery experience.
 
 ![browsing](/public/screenshots/browsing.png)
 
@@ -51,22 +51,22 @@ _Property browsing interface displaying available accommodations._
 
 # 🔐 Authentication System
 
-The authentication system provides secure user account management powered by Better Auth.
+The authentication system provides secure account management powered by Better Auth.
 
-Users can:
+Guests can:
 
 - create a new account
 - login securely
 - maintain personalized profiles
 - access booking and favorite features
 
-Authentication is integrated with the rest of the platform to provide user-specific experiences.
+Authentication is integrated with the rest of the platform to provide personalized experiences for each guest.
 
 ![register](/public/screenshots/register.png)
 
 <div align="center">
 
-_User registration interface for creating a new account._
+_Guest registration interface for creating a new account._
 
 </div>
 
@@ -74,13 +74,13 @@ _User registration interface for creating a new account._
 
 <div align="center">
 
-_User login interface for secure account access._
+_Guest login interface for secure account access._
 
 </div>
 
 # ❤️ Favorites & Personal Collection
 
-Users can save properties they are interested in and revisit them later.
+Guests can save properties they are interested in and revisit them later.
 
 Features include:
 
@@ -88,7 +88,7 @@ Features include:
 - remove saved properties
 - view personal favorite collections
 
-The favorite system allows users to organize potential stays before making booking decisions.
+The favorite system allows guests to organize potential stays before making booking decisions.
 
 ![favorites](/public/screenshots/favorites.png)
 
@@ -100,9 +100,9 @@ _Personal favorite collection for saved properties._
 
 # 📅 Booking System
 
-The booking workflow allows users to reserve properties and manage their stays.
+The booking workflow allows guests to reserve properties and manage their stays.
 
-Users can:
+Guests can:
 
 - create bookings
 - view booking history
@@ -144,7 +144,7 @@ _Host dashboard for creating and managing property listings._
 
 The platform supports cancellation workflows for both guests and hosts.
 
-Users can:
+Guests can:
 
 - cancel their own reservations
 - manage booking status changes
@@ -156,22 +156,30 @@ Hosts can:
 
 The cancellation system keeps booking states synchronized between guests and hosts.
 
-![cancel](/public/screenshots/cancel.png)
+![guest cancellation](/public/screenshots/guest-cancel.png)
 
 <div align="center">
 
-_Booking cancellation workflow between guests and hosts._
+_Guest cancellation interface for managing personal reservations._
+
+</div>
+
+![host cancellation](/public/screenshots/host-cancel.png)
+
+<div align="center">
+
+_Host cancellation interface for managing reservations for listed properties._
 
 </div>
 
 # ⚡ Lighthouse Report
 
-The project is optimized with modern Next.js features, responsive image delivery, and efficient rendering to provide a fast user experience.
+The project uses modern Next.js features, optimized image delivery, and efficient rendering to provide a fast and responsive user experience.
 
 Lighthouse Scores
 
-- 🚀 Performance — 95
-- ♿ Accessibility — ?
+- 🚀 Performance — 91
+- ♿ Accessibility — 96
 - ✅ Best Practices — 100
 - 🔍 SEO — 100
 
